@@ -1,5 +1,4 @@
-import Relatorios from './pages/Relatorios';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './pages/Login';
 import Layout from './components/Layout';
@@ -8,7 +7,8 @@ import Equipe from './pages/Equipe';
 import Captacao from './pages/Captacao';
 import Reciclagem from './pages/Reciclagem';
 import Comercializacao from './pages/Comercializacao';
-import Agenda from './pages/Agenda'; // <- Nova importação aqui
+import Agenda from './pages/Agenda';
+import Relatorios from './pages/Relatorios';
 
 const PrivateRoute = ({ children, requireGestor }) => {
   const { user, role, logout } = useAuth();
@@ -46,7 +46,7 @@ const PrivateRoute = ({ children, requireGestor }) => {
 export default function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
           
@@ -57,7 +57,7 @@ export default function App() {
             <Route path="/captacao" element={<Captacao />} />
             <Route path="/reciclagem" element={<Reciclagem />} />
             <Route path="/comercializacao" element={<Comercializacao />} />
-            <Route path="/agenda" element={<Agenda />} /> {/* <- Rota da Agenda ativada */}
+            <Route path="/agenda" element={<Agenda />} />
             
             {/* Rotas protegidas (Apenas Gestor) */}
             <Route path="/equipe" element={
@@ -65,14 +65,14 @@ export default function App() {
                 <Equipe />
               </PrivateRoute>
             } />
-	<Route path="/relatorios" element={
-	  <PrivateRoute requireGestor={true}>
-	    <Relatorios />
-	  </PrivateRoute>
-	} />
+            <Route path="/relatorios" element={
+              <PrivateRoute requireGestor={true}>
+                <Relatorios />
+              </PrivateRoute>
+            } />
           </Route>
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </AuthProvider>
   );
 }
